@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración — Mi Catálogo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">🎬 CATALOGO</a>
+    <nav>
+      <a href="index.html">← Volver al inicio</a>
+    </nav>
+  </header>
+
+  <div class="admin-panel">
+    <h2>⚙️ Panel de Administración</h2>
+
+    <!-- LOGIN -->
+    <div id="loginBox" class="login-box">
+      <p style="margin-bottom:14px; color:#ccc;">Ingresa tu token de GitHub para poder guardar cambios en tu catálogo.</p>
+      <label>Token de acceso personal (GitHub)</label>
+      <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+      <div class="hint">
+        ¿No tienes token? Ve a GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token.<br>
+        Marca el permiso <b>repo</b> (acceso completo a repositorios).<br>
+        El token se guarda solo en tu navegador (localStorage).
+      </div>
+      <button class="btn btn-primary" onclick="guardarToken()" style="width:100%; justify-content:center;">🔓 Conectar</button>
+    </div>
+
+    <!-- PANEL CRUD (oculto hasta login) -->
+    <div id="crudPanel" class="hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+        <p id="userStatus" style="color:#46d369; font-size:.9rem;">✅ Conectado</p>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-secondary" onclick="cerrarSesion()">🔒 Cerrar sesión</button>
+          <button class="btn btn-primary" onclick="mostrarFormulario()">➕ Agregar nuevo</button>
+        </div>
+      </div>
+
+      <!-- FORMULARIO ADD/EDIT -->
+      <div id="formBox" class="editor hidden">
+        <h3 id="formTitle">Agregar nuevo contenido</h3>
+        <input type="hidden" id="editId">
+
+        <div class="row">
+          <div>
+            <label>Título *</label>
+            <input type="text" id="fTitulo" placeholder="Ej: El Padrino">
+          </div>
+          <div>
+            <label>Tipo *</label>
+            <select id="fTipo">
+              <option value="pelicula">Película</option>
+              <option value="serie">Serie</option>
+              <option value="novela">Novela</option>
+              <option value="documental">Documental</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Año *</label>
+            <input type="number" id="fAño" placeholder="2024" min="1900" max="2100">
+          </div>
+          <div>
+            <label>Calificación (1-5)</label>
+            <select id="fCalificacion">
+              <option value="5">⭐⭐⭐⭐⭐</option>
+              <option value="4">⭐⭐⭐⭐</option>
+              <option value="3">⭐⭐⭐</option>
+              <option value="2">⭐⭐</option>
+              <option value="1">⭐</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Géneros * (selecciona al menos uno)</label>
+        <div class="generos-tags" id="fGeneros">
+          <label><input type="checkbox" value="Acción"> Acción</label>
+          <label><input type="checkbox" value="Aventura"> Aventura</label>
+          <label><input type="checkbox" value="Ciencia Ficción"> Ciencia Ficción</label>
+          <label><input type="checkbox" value="Comedia"> Comedia</label>
+          <label><input type="checkbox" value="Crimen"> Crimen</label>
+          <label><input type="checkbox" value="Documental"> Documental</label>
+          <label><input type="checkbox" value="Drama"> Drama</label>
+          <label><input type="checkbox" value="Fantasía"> Fantasía</label>
+          <label><input type="checkbox" value="Romance"> Romance</label>
+          <label><input type="checkbox" value="Terror"> Terror</label>
+          <label><input type="checkbox" value="Thriller"> Thriller</label>
+        </div>
+
+        <label>URL de la imagen (miniatura/poster)</label>
+        <input type="text" id="fImagen" placeholder="https://... o dejar vacío">
+
+        <label>URL del trailer de YouTube</label>
+        <input type="text" id="fTrailer" placeholder="https://www.youtube.com/watch?v=XXXX o https://youtu.be/XXXX">
+        <p style="font-size:.8rem; color:#888; margin-top:4px;">Pega el link completo de YouTube. Se convertirá automáticamente a formato embebido.</p>
+
+        <label>Sinopsis *</label>
+        <textarea id="fSinopsis" placeholder="Escribe una descripción atractiva..."></textarea>
+
+        <label>
+          <input type="checkbox" id="fDestacado"> Marcar como destacado (aparece en el banner principal)
+        </label>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="guardarItem()">💾 Guardar</button>
+          <button class="btn btn-secondary" onclick="cancelarFormulario()">❌ Cancelar</button>
+        </div>
+      </div>
+
+      <!-- LISTA -->
+      <h3 style="margin:24px 0 12px;">📋 Tu catálogo</h3>
+      <div id="listaAdmin" class="lista-admin">
+        <p style="color:#888;">Cargando...</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Catálogo audiovisual personal • 100% gratis • Hosteado en GitHub Pages</p>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

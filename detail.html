@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle — Mi Catálogo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">🎬 CATALOGO</a>
+    <nav>
+      <a href="index.html">← Volver al inicio</a>
+      <button class="admin-btn" onclick="location.href='admin.html'">⚙️ Admin</button>
+    </nav>
+  </header>
+
+  <div id="detalleContainer"></div>
+
+  <section style="padding-top:0">
+    <h2 class="section-title">🎯 También te puede interesar</h2>
+    <div class="galeria" id="relacionados"></div>
+  </section>
+
+  <footer>
+    <p>Catálogo audiovisual personal • 100% gratis • Hosteado en GitHub Pages</p>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="detail.js"></script>
+</body>
+</html>

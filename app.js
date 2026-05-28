@@ -1,123 +1,176 @@
+
 // ============================================
-// ⚙️ LÓGICA DE LA WEB - No necesitas tocar esto
-// ============================================
-// Este archivo hace que todo funcione:
-// - Muestra las tarjetas
-// - Filtra por tipo, género y búsqueda
-// - Actualiza el contador
+// 🏠 APP.JS — Página de inicio
 // ============================================
 
-const galeria = document.getElementById('galeria');
-const buscador = document.getElementById('buscador');
-const filtroTipo = document.getElementById('filtroTipo');
-const filtroGenero = document.getElementById('filtroGenero');
-const contador = document.getElementById('contador');
+const isGitHub = location.hostname.includes('github.io');
+let DATA_URL = 'data.json';
+let GITHUB_USER = '';
+let GITHUB_REPO = '';
 
-// Iconos según tipo
-const iconosTipo = {
-    pelicula: '🎬',
-    serie: '📺',
-    novela: '📖',
-    documental: '🌍'
-};
-
-// Función para crear estrellas
-function crearEstrellas(n) {
-    return '⭐'.repeat(n) + '☆'.repeat(5 - n);
+if (isGitHub) {
+  const parts = location.pathname.split('/').filter(Boolean);
+  GITHUB_REPO = parts[0] || '';
+  GITHUB_USER = location.hostname.split('.')[0];
+  DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/data.json`;
 }
 
-// Función para renderizar una tarjeta
-function crearTarjeta(item) {
-    const div = document.createElement('div');
-    div.className = 'tarjeta';
+let catalogo = [];
 
-    // Imagen o placeholder
-    let imagenHTML = '';
-    if (item.imagen && item.imagen.trim() !== '') {
-        imagenHTML = `<img src="${item.imagen}" alt="${item.titulo}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'sin-imagen\'>${iconosTipo[item.tipo] || '🎬'}</div>'">`;
-    } else {
-        imagenHTML = `<div class="sin-imagen">${iconosTipo[item.tipo] || '🎬'}</div>`;
-    }
+// Cargar datos
+async function cargarDatos() {
+  try {
+    const res = await fetch(DATA_URL + '?t=' + Date.now()); // evitar cache
+    if (!res.ok) throw new Error('No se pudo cargar data.json');
+    catalogo = await res.json();
+    if (!Array.isArray(catalogo)) catalogo = [];
+    renderizarTodo();
+  } catch (e) {
+    mostrarToast('Error cargando catálogo: ' + e.message, 'error');
+    console.error(e);
+  }
+}
 
-    // Géneros como tags
-    const generosHTML = item.generos.map(g => `<span class="genero-tag">${g}</span>`).join('');
+// Iconos
+const iconos = { pelicula:'🎬', serie:'📺', novela:'📖', documental:'🌍' };
 
-    div.innerHTML = `
-        <div class="imagen-container">
-            ${imagenHTML}
+// Estrellas
+function estrellas(n) {
+  n = Math.max(0, Math.min(5, parseInt(n)||0));
+  return '⭐'.repeat(n) + '☆'.repeat(5-n);
+}
+
+// URL amigable para detalle
+function linkDetalle(id) {
+  return `detail.html?id=${id}`;
+}
+
+// Crear tarjeta
+function tarjetaHTML(item) {
+  const img = item.imagen
+    ? `<img class="poster" src="${item.imagen}" alt="${item.titulo}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'poster-placeholder\\'>${iconos[item.tipo]||'🎬'}</div>'">`
+    : `<div class="poster-placeholder">${iconos[item.tipo]||'🎬'}</div>`;
+
+  const generos = (item.generos||[]).slice(0,3).join(' • ');
+
+  return `
+    <a href="${linkDetalle(item.id)}" class="tarjeta">
+      ${img}
+      <div class="info">
+        <h3>${item.titulo}</h3>
+        <div class="meta">${iconos[item.tipo]||'🎬'} ${item.tipo} • ${item.año}</div>
+        <div class="estrellas">${estrellas(item.calificacion)}</div>
+        <div class="meta" style="margin-top:4px; font-size:.7rem;">${generos}</div>
+      </div>
+    </a>
+  `;
+}
+
+// Renderizar hero (destacados)
+function renderizarHero() {
+  const destacados = catalogo.filter(x => x.destacado);
+  if (!destacados.length) {
+    document.getElementById('heroSection').style.display = 'none';
+    return;
+  }
+  const hero = destacados[0];
+  const bg = hero.imagen || '';
+
+  document.getElementById('heroSection').innerHTML = `
+    <div class="hero">
+      <div class="hero-bg" style="background-image:url('${bg}')"></div>
+      <div class="hero-content">
+        <span class="tag">${iconos[hero.tipo]||'🎬'} ${hero.tipo.toUpperCase()}</span>
+        <h1>${hero.titulo}</h1>
+        <p>${hero.sinopsis}</p>
+        <div class="hero-buttons">
+          <a href="${linkDetalle(hero.id)}" class="btn btn-primary">▶ Reproducir / Ver detalle</a>
+          <a href="${linkDetalle(hero.id)}" class="btn btn-secondary">ℹ️ Más info</a>
         </div>
-        <div class="info">
-            <span class="tipo ${item.tipo}">${iconosTipo[item.tipo] || '🎬'} ${item.tipo}</span>
-            <h3>${item.titulo}</h3>
-            <div class="año">📅 ${item.año}</div>
-            <div class="generos">${generosHTML}</div>
-            <div class="sinopsis">${item.sinopsis}</div>
-            <div class="calificacion">${crearEstrellas(item.calificacion || 0)}</div>
-        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar secciones por tipo
+function renderizarSecciones(items) {
+  const tipos = ['pelicula','serie','novela','documental'];
+  const nombres = { pelicula:'Películas', serie:'Series', novela:'Novelas', documental:'Documentales' };
+  let html = '';
+
+  tipos.forEach(tipo => {
+    const deTipo = items.filter(x => x.tipo === tipo);
+    if (!deTipo.length) return;
+    html += `
+      <h2 class="section-title">${iconos[tipo]||'🎬'} ${nombres[tipo]}</h2>
+      <div class="galeria">${deTipo.map(tarjetaHTML).join('')}</div>
     `;
+  });
 
-    return div;
+  // Si hay filtro activo y no hay secciones, mostrar galería plana
+  if (!html) {
+    html = `<div class="galeria">${items.map(tarjetaHTML).join('')}</div>`;
+  }
+
+  document.getElementById('contenidoDinamico').innerHTML = html;
 }
 
-// Función principal de renderizado
-function renderizar(items) {
-    galeria.innerHTML = '';
+// Filtrar y ordenar
+function obtenerFiltrados() {
+  let items = [...catalogo];
+  const texto = document.getElementById('buscador').value.toLowerCase().trim();
+  const tipo = document.getElementById('filtroTipo').value;
+  const genero = document.getElementById('filtroGenero').value;
+  const orden = document.getElementById('filtroOrden').value;
 
-    if (items.length === 0) {
-        galeria.innerHTML = `
-            <div class="sin-resultados">
-                <h2>😕 No encontré nada</h2>
-                <p>Prueba con otros filtros o términos de búsqueda.</p>
-            </div>
-        `;
-        contador.textContent = 'Mostrando 0 títulos';
-        return;
-    }
+  // URL params (para links directos)
+  const params = new URLSearchParams(location.search);
+  const tipoParam = params.get('tipo');
+  if (tipoParam && !document.getElementById('filtroTipo').dataset.manual) {
+    document.getElementById('filtroTipo').value = tipoParam;
+  }
 
-    items.forEach(item => {
-        galeria.appendChild(crearTarjeta(item));
-    });
+  if (texto) {
+    items = items.filter(x =>
+      (x.titulo||'').toLowerCase().includes(texto) ||
+      (x.sinopsis||'').toLowerCase().includes(texto)
+    );
+  }
+  if (tipo !== 'todos') items = items.filter(x => x.tipo === tipo);
+  if (genero !== 'todos') items = items.filter(x => (x.generos||[]).includes(genero));
 
-    contador.textContent = `Mostrando ${items.length} título${items.length !== 1 ? 's' : ''}`;
+  // Orden
+  if (orden === 'reciente') items.sort((a,b) => (b.año||0) - (a.año||0));
+  if (orden === 'antiguo') items.sort((a,b) => (a.año||0) - (b.año||0));
+  if (orden === 'mejor') items.sort((a,b) => (b.calificacion||0) - (a.calificacion||0));
+  if (orden === 'az') items.sort((a,b) => (a.titulo||'').localeCompare(b.titulo||''));
+
+  return items;
 }
 
-// Función de filtrado
-function filtrar() {
-    const texto = buscador.value.toLowerCase().trim();
-    const tipo = filtroTipo.value;
-    const genero = filtroGenero.value;
-
-    const filtrados = catalogo.filter(item => {
-        // Filtro por texto (título o sinopsis)
-        const coincideTexto = item.titulo.toLowerCase().includes(texto) || 
-                              item.sinopsis.toLowerCase().includes(texto);
-
-        // Filtro por tipo
-        const coincideTipo = tipo === 'todos' || item.tipo === tipo;
-
-        // Filtro por género
-        const coincideGenero = genero === 'todos' || item.generos.includes(genero);
-
-        return coincideTexto && coincideTipo && coincideGenero;
-    });
-
-    renderizar(filtrados);
-}
-
-// Resetear filtros
-function resetFiltros() {
-    buscador.value = '';
-    filtroTipo.value = 'todos';
-    filtroGenero.value = 'todos';
-    filtrar();
+function renderizarTodo() {
+  renderizarHero();
+  renderizarSecciones(obtenerFiltrados());
 }
 
 // Event listeners
-buscador.addEventListener('input', filtrar);
-filtroTipo.addEventListener('change', filtrar);
-filtroGenero.addEventListener('change', filtrar);
-
-// Render inicial
-document.addEventListener('DOMContentLoaded', () => {
-    renderizar(catalogo);
+['buscador','filtroTipo','filtroGenero','filtroOrden'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener(id==='buscador'?'input':'change', () => {
+      if (id==='filtroTipo') el.dataset.manual = 'true';
+      renderizarSecciones(obtenerFiltrados());
+    });
+  }
 });
+
+// Toast
+function mostrarToast(msg, tipo='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + tipo;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Iniciar
+cargarDatos();

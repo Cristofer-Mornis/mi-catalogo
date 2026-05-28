@@ -1,54 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Catálogo Audiovisual</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Catálogo — Inicio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>🎬 Mi Catálogo Audiovisual</h1>
-        <p>Películas, Series, Novelas y más</p>
-    </header>
+  <header>
+    <a href="index.html" class="logo">🎬 CATALOGO</a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="index.html?tipo=pelicula">Películas</a>
+      <a href="index.html?tipo=serie">Series</a>
+      <a href="index.html?tipo=novela">Novelas</a>
+      <a href="index.html?tipo=documental">Documentales</a>
+      <button class="admin-btn" onclick="location.href='admin.html'">⚙️ Admin</button>
+    </nav>
+  </header>
 
+  <div id="heroSection"></div>
+
+  <section>
     <div class="controles">
-        <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
-
-        <select id="filtroTipo">
-            <option value="todos">Todos los tipos</option>
-            <option value="pelicula">🎬 Películas</option>
-            <option value="serie">📺 Series</option>
-            <option value="novela">📖 Novelas</option>
-            <option value="documental">🌍 Documentales</option>
-        </select>
-
-        <select id="filtroGenero">
-            <option value="todos">Todos los géneros</option>
-            <option value="Acción">Acción</option>
-            <option value="Comedia">Comedia</option>
-            <option value="Drama">Drama</option>
-            <option value="Terror">Terror</option>
-            <option value="Romance">Romance</option>
-            <option value="Ciencia Ficción">Ciencia Ficción</option>
-            <option value="Crimen">Crimen</option>
-            <option value="Aventura">Aventura</option>
-        </select>
-
-        <button onclick="resetFiltros()">🔄 Limpiar filtros</button>
+      <input type="text" id="buscador" placeholder="🔍 Buscar título, sinopsis...">
+      <select id="filtroTipo">
+        <option value="todos">Todos los tipos</option>
+        <option value="pelicula">Películas</option>
+        <option value="serie">Series</option>
+        <option value="novela">Novelas</option>
+        <option value="documental">Documentales</option>
+      </select>
+      <select id="filtroGenero">
+        <option value="todos">Todos los géneros</option>
+        <option value="Acción">Acción</option>
+        <option value="Aventura">Aventura</option>
+        <option value="Ciencia Ficción">Ciencia Ficción</option>
+        <option value="Comedia">Comedia</option>
+        <option value="Crimen">Crimen</option>
+        <option value="Documental">Documental</option>
+        <option value="Drama">Drama</option>
+        <option value="Fantasía">Fantasía</option>
+        <option value="Romance">Romance</option>
+        <option value="Terror">Terror</option>
+        <option value="Thriller">Thriller</option>
+      </select>
+      <select id="filtroOrden">
+        <option value="reciente">Más recientes</option>
+        <option value="antiguo">Más antiguos</option>
+        <option value="mejor">Mejor calificados</option>
+        <option value="az">A — Z</option>
+      </select>
     </div>
 
-    <div id="contador">Mostrando 0 títulos</div>
+    <div id="contenidoDinamico"></div>
+  </section>
 
-    <main id="galeria">
-        <!-- Aquí se insertan las tarjetas automáticamente -->
-    </main>
+  <footer>
+    <p>Catálogo audiovisual personal • 100% gratis • Hosteado en GitHub Pages</p>
+  </footer>
 
-    <footer>
-        <p>Catálogo personal • Actualizado manualmente</p>
-    </footer>
-
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
 </body>
 </html>

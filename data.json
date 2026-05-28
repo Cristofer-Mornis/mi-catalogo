@@ -1,0 +1,96 @@
+[
+  {
+    "id": 1,
+    "titulo": "El Padrino",
+    "tipo": "pelicula",
+    "generos": [
+      "Drama",
+      "Crimen"
+    ],
+    "año": 1972,
+    "sinopsis": "La historia de la familia Corleone, una de las más poderosas del crimen organizado en Nueva York, liderada por el patriarca Vito Corleone.",
+    "imagen": "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+    "trailer": "https://www.youtube.com/embed/sY1S34973zA",
+    "calificacion": 5,
+    "destacado": true
+  },
+  {
+    "id": 2,
+    "titulo": "Stranger Things",
+    "tipo": "serie",
+    "generos": [
+      "Ciencia Ficción",
+      "Terror",
+      "Drama"
+    ],
+    "año": 2016,
+    "sinopsis": "En los años 80, en un pequeño pueblo de Indiana, un niño desaparece misteriosamente. Sus amigos, una policía y su madre buscan respuestas mientras descubren secretos del gobierno.",
+    "imagen": "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AI0WGwQl.jpg",
+    "trailer": "https://www.youtube.com/embed/b9EkMc79ZSU",
+    "calificacion": 4,
+    "destacado": true
+  },
+  {
+    "id": 3,
+    "titulo": "Café con Aroma de Mujer",
+    "tipo": "novela",
+    "generos": [
+      "Romance",
+      "Drama"
+    ],
+    "año": 2021,
+    "sinopsis": "Gaviota, una recolectora de café, sueña con cambiar su destino. Su vida da un giro cuando conoce a Sebastián, heredero de una importante empresa cafetera.",
+    "imagen": "",
+    "trailer": "",
+    "calificacion": 4,
+    "destacado": false
+  },
+  {
+    "id": 4,
+    "titulo": "Dune",
+    "tipo": "pelicula",
+    "generos": [
+      "Ciencia Ficción",
+      "Aventura",
+      "Drama"
+    ],
+    "año": 2021,
+    "sinopsis": "Paul Atreides, un joven brillante, debe viajar al planeta más peligroso del universo para asegurar el futuro de su familia y su pueblo.",
+    "imagen": "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkV92gg6kxWJLV.jpg",
+    "trailer": "https://www.youtube.com/embed/8g18jFHCLXk",
+    "calificacion": 4,
+    "destacado": false
+  },
+  {
+    "id": 5,
+    "titulo": "Breaking Bad",
+    "tipo": "serie",
+    "generos": [
+      "Drama",
+      "Crimen",
+      "Thriller"
+    ],
+    "año": 2008,
+    "sinopsis": "Walter White, un profesor de química con cáncer terminal, decide fabricar metanfetamina para asegurar el futuro de su familia, transformándose en un peligroso narcotraficante.",
+    "imagen": "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacizizPb.jpg",
+    "trailer": "https://www.youtube.com/embed/HhesaQXLuRY",
+    "calificacion": 5,
+    "destacado": true
+  },
+  {
+    "id": 6,
+    "titulo": "Yo Soy Betty, la Fea",
+    "tipo": "novela",
+    "generos": [
+      "Comedia",
+      "Romance",
+      "Drama"
+    ],
+    "año": 1999,
+    "sinopsis": "Beatriz Pinzón Solano, una economista inteligente pero poco agraciada, logra trabajo en una importante empresa de moda donde enfrenta el prejuicio por su apariencia.",
+    "imagen": "",
+    "trailer": "",
+    "calificacion": 5,
+    "destacado": false
+  }
+]
