@@ -92,5 +92,20 @@
     "trailer": "",
     "calificacion": 5,
     "destacado": false
+  },
+  {
+    "id": 7,
+    "titulo": "123",
+    "tipo": "documental",
+    "año": 444,
+    "calificacion": 3,
+    "imagen": "",
+    "trailer": "https://www.youtube.com/embed/JeRr0jgpm1Y?rel=0",
+    "sinopsis": "tqwfqw",
+    "destacado": false,
+    "generos": [
+      "Acción",
+      "Comedia"
+    ]
   }
 ]
