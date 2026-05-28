@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Catálogo Audiovisual</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎬 Mi Catálogo Audiovisual</h1>
+        <p>Películas, Series, Novelas y más</p>
+    </header>
+
+    <div class="controles">
+        <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
+
+        <select id="filtroTipo">
+            <option value="todos">Todos los tipos</option>
+            <option value="pelicula">🎬 Películas</option>
+            <option value="serie">📺 Series</option>
+            <option value="novela">📖 Novelas</option>
+            <option value="documental">🌍 Documentales</option>
+        </select>
+
+        <select id="filtroGenero">
+            <option value="todos">Todos los géneros</option>
+            <option value="Acción">Acción</option>
+            <option value="Comedia">Comedia</option>
+            <option value="Drama">Drama</option>
+            <option value="Terror">Terror</option>
+            <option value="Romance">Romance</option>
+            <option value="Ciencia Ficción">Ciencia Ficción</option>
+            <option value="Crimen">Crimen</option>
+            <option value="Aventura">Aventura</option>
+        </select>
+
+        <button onclick="resetFiltros()">🔄 Limpiar filtros</button>
+    </div>
+
+    <div id="contador">Mostrando 0 títulos</div>
+
+    <main id="galeria">
+        <!-- Aquí se insertan las tarjetas automáticamente -->
+    </main>
+
+    <footer>
+        <p>Catálogo personal • Actualizado manualmente</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
